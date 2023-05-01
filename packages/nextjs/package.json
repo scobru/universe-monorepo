@@ -1,5 +1,5 @@
 {
-  "name": "@se-2/nextjs",
+  "name": "@universe/nextjs",
   "private": true,
   "version": "0.1.0",
   "scripts": {
@@ -17,10 +17,11 @@
     "@ethersproject/networks": "^5.7.1",
     "@ethersproject/web": "^5.7.1",
     "@heroicons/react": "^2.0.11",
+    "@nextui-org/react": "^1.0.0-beta.12",
     "@rainbow-me/rainbowkit": "^0.11.0",
     "@uniswap/sdk": "^3.0.3",
     "daisyui": "^2.31.0",
-    "ethers": "^5.0.0",
+    "ethers": "5",
     "next": "^13.1.6",
     "nextjs-progressbar": "^0.0.16",
     "react": "^18.2.0",
@@ -31,7 +32,7 @@
     "react-hot-toast": "^2.4.0",
     "use-debounce": "^8.0.4",
     "usehooks-ts": "^2.7.2",
-    "wagmi": "^0.11.6",
+    "wagmi": "^0.12.12",
     "zustand": "^4.1.2"
   },
   "devDependencies": {

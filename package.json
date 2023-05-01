@@ -1,36 +1,44 @@
 {
-  "name": "se-2",
+  "name": "universe",
   "version": "0.0.1",
-  "private": true,
+  "repository": "https://github.com/scobru/universe-monorepo",
+  "author": "scobru",
+  "license": "MIT",
   "workspaces": {
     "packages": [
       "packages/hardhat",
       "packages/nextjs"
     ]
   },
+  "private": true,
   "scripts": {
-    "account": "yarn workspace @se-2/hardhat account",
-    "chain": "yarn workspace @se-2/hardhat chain",
-    "fork": "yarn workspace @se-2/hardhat fork",
-    "deploy": "yarn workspace @se-2/hardhat deploy",
-    "verify": "yarn workspace @se-2/hardhat verify",
-    "compile": "yarn workspace @se-2/hardhat compile",
-    "generate": "yarn workspace @se-2/hardhat generate",
-    "hardhat:lint": "yarn workspace @se-2/hardhat lint",
-    "hardhat:lint-staged": "yarn workspace @se-2/hardhat lint-staged",
-    "hardhat:test": "yarn workspace @se-2/hardhat test",
-    "start": "yarn workspace @se-2/nextjs dev",
-    "next:lint": "yarn workspace @se-2/nextjs lint",
-    "next:format": "yarn workspace @se-2/nextjs format",
-    "next:check-types": "yarn workspace @se-2/nextjs check-types",
+    "account": "yarn workspace @universe/hardhat account",
+    "chain": "yarn workspace @universe/hardhat chain",
+    "fork": "yarn workspace @universe/hardhat fork",
+    "deploy": "yarn workspace @universe/hardhat deploy",
+    "verify": "yarn workspace @universe/hardhat verify",
+    "compile": "yarn workspace @universe/hardhat compile",
+    "generate": "yarn workspace @universe/hardhat generate",
+    "hardhat:lint": "yarn workspace @universe/hardhat lint",
+    "hardhat:lint-staged": "yarn workspace @universe/hardhat lint-staged",
+    "hardhat:test": "yarn workspace @universe/hardhat test",
+    "start": "yarn workspace @universe/nextjs dev",
+    "next:lint": "yarn workspace @universe/nextjs lint",
+    "next:format": "yarn workspace @universe/nextjs format",
+    "next:check-types": "yarn workspace @universe/nextjs check-types",
+    "next:build": "yarn workspace @universe/nextjs build",
     "postinstall": "husky install",
     "precommit": "lint-staged",
-    "vercel": "yarn workspace @se-2/nextjs vercel",
-    "vercel:yolo": "yarn workspace @se-2/nextjs vercel:yolo"
+    "vercel": "yarn workspace @universe/nextjs vercel",
+    "vercel:yolo": "yarn workspace @universe/nextjs vercel:yolo"
   },
   "packageManager": "yarn@3.2.3",
   "devDependencies": {
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3"
+  },
+  "dependencies": {
+    "swc-loader": "^0.2.3",
+    "ts-node": "^10.9.1"
   }
 }

@@ -13,7 +13,7 @@ export type ScaffoldConfig = {
 
 const scaffoldConfig = {
   // The network where your DApp lives in
-  targetNetwork: chains.hardhat,
+  targetNetwork: chains.polygon,
 
   // The interval at which your front-end polls the RPC servers for new data
   // it has no effect on the local network
@@ -30,7 +30,7 @@ const scaffoldConfig = {
     // Set it to false to completely remove burner wallet from all networks
     enabled: true,
     // Only show the Burner Wallet when running on hardhat network
-    onlyLocal: true,
+    onlyLocal: false,
   },
 
   /**

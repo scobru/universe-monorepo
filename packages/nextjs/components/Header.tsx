@@ -1,8 +1,7 @@
 import React, { useCallback, useRef, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { Bars3Icon, BugAntIcon, SparklesIcon } from "@heroicons/react/24/outline";
+import { Bars3Icon, DocumentIcon, HomeIcon, SparklesIcon } from "@heroicons/react/24/outline";
 import { FaucetButton, RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
 import { useOutsideClick } from "~~/hooks/scaffold-eth";
 
@@ -37,9 +36,12 @@ export const Header = () => {
   const navLinks = (
     <>
       <li>
-        <NavLink href="/">Home</NavLink>
+        <NavLink href="/">
+          {" "}
+          <HomeIcon className="h-4 w-4" />
+        </NavLink>
       </li>
-      <li>
+      {/* <li>
         <NavLink href="/debug">
           <BugAntIcon className="h-4 w-4" />
           Debug Contracts
@@ -49,6 +51,24 @@ export const Header = () => {
         <NavLink href="/example-ui">
           <SparklesIcon className="h-4 w-4" />
           Example UI
+        </NavLink>
+      </li> */}
+      <li>
+        <NavLink href="/funds">
+          <Bars3Icon className="h-4 w-4" />
+          <h1 className="text-base font-semibold my-0">Funds</h1>
+        </NavLink>
+      </li>
+      <li>
+        <NavLink href="/farms">
+          <SparklesIcon className="h-4 w-4" />
+          <h1 className="text-base font-semibold my-0">Farm</h1>
+        </NavLink>
+      </li>
+      <li>
+        <NavLink href="https://scobru.gitbook.io/universe/">
+          <DocumentIcon className="h-4 w-4" />
+          <h1 className="text-base font-semibold my-0">Docs</h1>
         </NavLink>
       </li>
     </>
@@ -79,12 +99,9 @@ export const Header = () => {
           )}
         </div>
         <Link href="/" passHref className="hidden lg:flex items-center gap-2 ml-4 mr-6">
-          <div className="flex relative w-10 h-10">
-            <Image alt="SE2 logo" className="cursor-pointer" fill src="/logo.svg" />
-          </div>
-          <div className="flex flex-col">
-            <span className="font-bold leading-tight">Scaffold-eth</span>
-            <span className="text-xs">Ethereum dev stack</span>
+          <div className="flex flex-col py-2">
+            <span className="font-bold text-xl">◯ U N I V E R S E </span>
+            <span className="text-xs">Decentralized Investment platform</span>
           </div>
         </Link>
         <ul className="hidden lg:flex lg:flex-nowrap menu menu-horizontal px-1 gap-2">{navLinks}</ul>
