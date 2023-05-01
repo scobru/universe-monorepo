@@ -1,0 +1,11 @@
+diff --git a/node_modules/@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol b/node_modules/@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol
+index f72ebe9..e8040c7 100644
+--- a/node_modules/@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol
++++ b/node_modules/@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol
+@@ -79,4 +79,6 @@ interface IERC20Upgradeable {
+         address to,
+         uint256 amount
+     ) external returns (bool);
++
++    function decimals() external view returns (uint8);
+ }
