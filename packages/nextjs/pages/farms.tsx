@@ -11,6 +11,8 @@ const Vaults: NextPage = () => {
   const account = useAccount();
   const provider = useProvider();
   const singerAddress = account.address;
+  const [newOwner, setNewOwner] = useState("");
+  const [owner, setOwner] = useState("");
 
   const DEBUG = false;
 
@@ -163,6 +165,8 @@ const Vaults: NextPage = () => {
     let data: any = {};
     try {
       data = await addr?.getMultiFarmData();
+      const owner = await addr?.owner();
+      setOwner(owner);
 
       if (data.length > 0) {
         fundsData[i] = {
@@ -231,6 +235,12 @@ const Vaults: NextPage = () => {
     return Promise.resolve();
   };
 
+  async function rebalance(addrs: string) {
+    const contract = new Contract(addrs, contractABIFarm as ContractInterface, signer || provider);
+    const tx = await contract.rebalance();
+    await tx.wait();
+  }
+
   async function deposit(addrs: string) {
     const contract = new Contract(addrs, contractABIFarm, signer || provider);
     const tx = await contract.deposit({ value: parseEther(depositAmount) });
@@ -262,6 +272,12 @@ const Vaults: NextPage = () => {
     await tx.wait();
   }
 
+  async function transferOwnership(addrs: string) {
+    const contract = new Contract(addrs, contractABIFarm, signer || provider);
+    const tx = await contract.transferOwnership(newOwner);
+    await tx.wait();
+  }
+
   return (
     <div className="flex  items-center flex-col flex-grow pt-10 mx-auto text-center">
       <h1 className="text-7xl text-justify font-bold mx-auto my-5">FARMS</h1>
@@ -271,193 +287,214 @@ const Vaults: NextPage = () => {
         <div className="grid gap-5 sm:grid-cols-1 lg:grid-cols-2 items-center mx-auto ">
           {fundsData.length > 0 //check if vaults data is available
             ? fundsData.map(
-                (
-                  value,
-                  i: number, //map through the vaults data
-                ) => (
-                  <div
-                    key={i}
-                    className="bg-base-100 flex flex-col px-10 text-center mt-5  shadow-base-300 shadow-lg rounded-xl  py-10 my-5"
-                  >
-                    <ul className="my-2">
-                      <div className="text-6xl text- font-bold my-2">{value.symbol}</div>
-                      <div className="text-2xl text-netural">{value.name}</div>
-                    </ul>
-                    <div className="dropdown  flex-row ">
-                      <label tabIndex={0} className="btn btn-md m-1">
-                        Analitycs
-                      </label>
-                      <div
-                        tabIndex={0}
-                        className="dropdown-content card card-compact w-64 p-2 shadow bg-primary text-primary-content"
-                      >
-                        <div className="card-body">
-                          <div className="flex flex-col  px-5 rounded-2xl bordered border-solid border-black text-lg ">
-                            <a
-                              className="link link-base-100 text-xl text-bold text-strong "
-                              href={`https://portfolio.nansen.ai/dashboard/${value.address}?chain=POLYGON`}
-                              target="_blank"
-                              rel="noreferrer"
-                            >
-                              <strong>Nansen Dashboard</strong>
-                            </a>
-                            <a
-                              className="link link-base-100 text-xl text-bold text-strong "
-                              href={`https://debank.com/profile/${value.address}?chain=matic`}
-                              target="_blank"
-                              rel="noreferrer"
-                            >
-                              <strong>Debank</strong>
-                            </a>
-                            <a
-                              className="link link-base-100 text-xl text-bold text-strong "
-                              href={`https://polygonscan.com/address/${value.address}`}
-                              target="_blank"
-                              rel="noreferrer"
-                            >
-                              <strong>PolygonScan</strong>
-                            </a>
-                            <a
-                              className="link link-accent text-xl text-bold text-strong"
-                              href="https://beefy.finance"
-                              target="_blank"
-                              rel="noreferrer"
-                            ></a>
-                          </div>
+              (
+                value,
+                i: number, //map through the vaults data
+              ) => (
+                <div
+                  key={i}
+                  className="bg-primary flex flex-col px-10 text-center mt-5  shadow-base-300 shadow-lg rounded-xl  py-10 my-5"
+                >
+                  <ul className="my-2">
+                    <div className="text-6xl text- font-bold my-2">{value.symbol}</div>
+                    <div className="text-2xl text-netural">{value.name}</div>
+                  </ul>
+                  <div className="dropdown  flex-row ">
+                    <label tabIndex={0} className="btn btn-md m-1">
+                      Analitycs
+                    </label>
+                    <div
+                      tabIndex={0}
+                      className="dropdown-content card card-compact w-64 p-2 shadow bg-primary text-primary-content"
+                    >
+                      <div className="card-body">
+                        <div className="flex flex-col  px-5 rounded-2xl bordered border-solid border-black text-lg ">
+                          <a
+                            className="link link-base-100 text-xl text-bold text-strong "
+                            href={`https://portfolio.nansen.ai/dashboard/${value.address}?chain=POLYGON`}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            <strong>Nansen Dashboard</strong>
+                          </a>
+                          <a
+                            className="link link-base-100 text-xl text-bold text-strong "
+                            href={`https://debank.com/profile/${value.address}?chain=matic`}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            <strong>Debank</strong>
+                          </a>
+                          <a
+                            className="link link-base-100 text-xl text-bold text-strong "
+                            href={`https://polygonscan.com/address/${value.address}`}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            <strong>PolygonScan</strong>
+                          </a>
+                          <a
+                            className="link link-accent text-xl text-bold text-strong"
+                            href="https://beefy.finance"
+                            target="_blank"
+                            rel="noreferrer"
+                          ></a>
                         </div>
                       </div>
                     </div>
-                    <div className="collapse">
-                      <input type="checkbox" />
-                      <div className="collapse-title text-xl font-medium">
-                        <label className="label hover:bg-primary">ℹ️ Info</label>
-                      </div>
-                      <div className="collapse-content card-compact rounded-lg ">
-                        <div className="flex flex-row justify-center text-left my-8">
-                          <div className="card card-normal w-96 bg-base-200 shadow-xl my-5">
-                            <div className="card-body">
-                              <h2 className="card-title text-3xl">Compositions</h2>
-                              <div className="flex flex-row text-left ">
-                                {beefyVaultNames.length == fundsData.length &&
+                  </div>
+                  <div className="collapse">
+                    <input type="checkbox" />
+                    <div className="collapse-title text-xl font-medium">
+                      <label className="label hover:bg-primary">ℹ️ Info</label>
+                    </div>
+                    <div className="collapse-content card-compact rounded-lg ">
+                      <div className="flex flex-row justify-center text-left my-8">
+                        <div className="card card-normal w-96 bg-base-200 shadow-xl my-5">
+                          <div className="card-body">
+                            <h2 className="card-title text-3xl">Compositions</h2>
+                            <div className="flex flex-row text-left ">
+                              {beefyVaultNames.length == fundsData.length &&
                                 allocations[i] &&
                                 beefyVaultNames[i].length == fundsData[i].vaults.length ? (
-                                  beefyVaultNames[i].map((contract: string, k: number) => (
-                                    <div key={k}>
-                                      <h1 className="text-lg font-bold">{contract}</h1>
-                                      <span className="text-md font-medium">
-                                        APY: {""}
-                                        {Number(beefyVaultApys[i][k].toFixed(2))}% <br />
-                                        {Number(allocations[i][k] / 100).toFixed(2)}%
-                                      </span>
-                                      <div>
-                                        {" "}
-                                        <br></br>{" "}
-                                      </div>
+                                beefyVaultNames[i].map((contract: string, k: number) => (
+                                  <div key={k}>
+                                    <h1 className="text-lg font-bold">{contract}</h1>
+                                    <span className="text-md font-medium">
+                                      APY: {""}
+                                      {Number(beefyVaultApys[i][k].toFixed(2))}% <br />
+                                      {Number(allocations[i][k] / 100).toFixed(2)}%
+                                    </span>
+                                    <div>
+                                      {" "}
+                                      <br></br>{" "}
                                     </div>
-                                  ))
-                                ) : (
-                                  <progress className="progress w-56"></progress>
-                                )}
-                                <h1 className="text-2xl font-bold">
-                                  APY total: {Number(totalApys[i] / 10000).toFixed(2)} %
-                                </h1>
-                              </div>
+                                  </div>
+                                ))
+                              ) : (
+                                <progress className="progress w-56"></progress>
+                              )}
+                              <h1 className="text-2xl font-bold">
+                                APY total: {Number(totalApys[i] / 10000).toFixed(2)} %
+                              </h1>
                             </div>
                           </div>
                         </div>
-                        <div className="card card-normal w-96 bg-base-100 shadow-xl">
-                          <div className="card-body text-left">
-                            <h2 className="card-title text-3xl">Statistics</h2>
-                            <h1 className="text-xl strong bold align-baseline ">
-                              <p className="text-md align-baseline font-semibold">Unit Price</p>{" "}
-                              {Number(formatEther(value.unitPrice)).toFixed(4)} MATIC{" "}
-                            </h1>
-                            <h1 className="text-xl strong bold align-baseline ">
-                              <p className="text-md font-semibold"> Total Value: </p>
-                              {Number(formatEther(value.totalValue)).toFixed(4)} MATIC <br />
-                            </h1>
-                            {/* <div className="flex flex-row">
+                      </div>
+                      <div className="card card-normal w-96 bg-base-100 shadow-xl">
+                        <div className="card-body text-left">
+                          <h2 className="card-title text-3xl">Statistics</h2>
+                          <h1 className="text-xl strong bold align-baseline ">
+                            <p className="text-md align-baseline font-semibold">Unit Price</p>{" "}
+                            {Number(formatEther(value.unitPrice)).toFixed(4)} MATIC{" "}
+                          </h1>
+                          <h1 className="text-xl strong bold align-baseline ">
+                            <p className="text-md font-semibold"> Total Value: </p>
+                            {Number(formatEther(value.totalValue)).toFixed(4)} MATIC <br />
+                          </h1>
+                          {/* <div className="flex flex-row">
                                 <h2 className="text-xl strong bold align-baseline ">
                                   <h1 className="text-md strong">Total Supply:</h1>{" "}
                                   {Number(formatEther(value.totalSupply)).toFixed(3)} {value.symbol}{" "}
                                 </h2>
                               </div> */}
-                            <h1 className="text-xl strong bold align-baseline ">
-                              <p className="text-md font-semibold">Your Balance:</p>
-                              {Number(formatEther(value.yourBalance)).toFixed(3)} {value.symbol}
-                              <br />
-                              {(((value.yourBalance / 1e18) * value.unitPrice) / 1e18).toFixed(4)} MATIC
-                              <br />
-                              {((((value.yourBalance / 1e18) * value.unitPrice) / 1e18) * maticPrice).toFixed(5)} USD
-                            </h1>
-                          </div>
+                          <h1 className="text-xl strong bold align-baseline ">
+                            <p className="text-md font-semibold">Your Balance:</p>
+                            {Number(formatEther(value.yourBalance)).toFixed(3)} {value.symbol}
+                            <br />
+                            {(((value.yourBalance / 1e18) * value.unitPrice) / 1e18).toFixed(4)} MATIC
+                            <br />
+                            {((((value.yourBalance / 1e18) * value.unitPrice) / 1e18) * maticPrice).toFixed(5)} USD
+                          </h1>
                         </div>
                       </div>
                     </div>
-                    <div className="collapse text-left">
-                      <input type="checkbox" />
-                      <div className="collapse-title text-xl font-medium">
-                        <label className="label">💸 Deposit</label>{" "}
-                      </div>
-                      <div className="collapse-content card-compact rounded-lg bg-secondary">
-                        <div className="flex flex-col mx-auto my-auto p-2 ">
-                          <input
-                            className="input input-bordered w-auto my-5"
-                            type="text"
-                            onChange={e => setDepositAmount(e.target.value)}
-                          />
-                          <button className="w-auto btn btn-primary my-2" onClick={() => deposit(value.address)}>
-                            Deposit
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="collapse text-center">
-                      <input type="checkbox" />
-                      <div className="collapse-title text-xl font-medium">
-                        {" "}
-                        <label className="label hover:bg-accent">👛 Redeem</label>
-                      </div>
-                      <div className="collapse-content card-compact rounded-lg bg-secondary">
-                        <div className="flex flex-col mx-auto my-auto p-2 ">
-                          <input
-                            className="input input-bordered w-auto my-5"
-                            type="text"
-                            onChange={e => setRedeemAmount(e.target.value)}
-                          />
-                          <button className="btn btn-primary w-auto my-2" onClick={() => redeem(value.address)}>
-                            Redeem
-                          </button>
-                          <button className="btn btn-primary" onClick={() => redeemMax(value.address)}>
-                            Redeem All
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                    {account.address === "0x3db5E84e0eBBEa945a0a82E879DcB7E1D1a587B4" ? (
-                      <div className=" flex flex-col my-5  px-5 rounded-2xl bordered border-solid border-black text-2xl">
-                        <div className="divider mx-5 my-5">🔒 Admin Section</div>
-                        <button
-                          className="  rounded-sm px-4 py-2 border-solid border-2 row-span-1 my-5"
-                          onClick={() => {
-                            zapOutAndDistribute(value.address);
-                          }}
-                        >
-                          Zap Out and Distribute
-                        </button>
-                        <button
-                          className="  rounded-sm px-4 py-2 border-solid border-2 row-span-1 my-5"
-                          onClick={() => {
-                            restartDistribution(value.address);
-                          }}
-                        >
-                          Restart Distribution
-                        </button>
-                      </div>
-                    ) : null}
                   </div>
-                ),
-              )
+                  <div className="collapse text-left">
+                    <input type="checkbox" />
+                    <div className="collapse-title text-xl font-medium">
+                      <label className="label">💸 Deposit</label>{" "}
+                    </div>
+                    <div className="collapse-content card-compact rounded-lg bg-secondary">
+                      <div className="flex flex-col mx-auto my-auto p-2 ">
+                        <input
+                          className="input input-bordered w-auto my-5"
+                          type="text"
+                          onChange={e => setDepositAmount(e.target.value)}
+                        />
+                        <button className="w-auto btn btn-primary my-2" onClick={() => deposit(value.address)}>
+                          Deposit
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="collapse text-center">
+                    <input type="checkbox" />
+                    <div className="collapse-title text-xl font-medium">
+                      {" "}
+                      <label className="label hover:bg-accent">👛 Redeem</label>
+                    </div>
+                    <div className="collapse-content card-compact rounded-lg bg-secondary">
+                      <div className="flex flex-col mx-auto my-auto p-2 ">
+                        <input
+                          className="input input-bordered w-auto my-5"
+                          type="text"
+                          onChange={e => setRedeemAmount(e.target.value)}
+                        />
+                        <button className="btn btn-primary w-auto my-2" onClick={() => redeem(value.address)}>
+                          Redeem
+                        </button>
+                        <button className="btn btn-primary" onClick={() => redeemMax(value.address)}>
+                          Redeem All
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  {account.address === owner ? (
+                    <div className=" flex flex-col my-5  px-5 rounded-2xl bordered border-solid border-black text-2xl">
+                      <div className="divider mx-5 my-5">🔒 Admin Section</div>
+                      <button
+                        className="  rounded-sm px-4 py-2 border-solid border-2 row-span-1 my-5"
+                        onClick={() => {
+                          zapOutAndDistribute(value.address);
+                        }}
+                      >
+                        Zap Out and Distribute
+                      </button>
+                      <button
+                        className="  rounded-sm px-4 py-2 border-solid border-2 row-span-1 my-5"
+                        onClick={() => {
+                          restartDistribution(value.address);
+                        }}
+                      >
+                        Restart Distribution
+                      </button>
+                      <button
+                        className="  rounded-sm px-4 py-2 border-solid border-2 row-span-1 my-5"
+                        onClick={() => {
+                          rebalance(value.address);
+                        }}
+                      >
+                        Rebalance
+                      </button>
+                      <input
+                        className="input input-bordered w-auto my-5"
+                        type="text"
+                        onChange={e => setNewOwner(e.target.value)}
+                      />
+                      <button
+                        className="  rounded-sm px-4 py-2 border-solid border-2 row-span-1 my-5"
+                        onClick={() => {
+                          transferOwnership(value.address);
+                        }}
+                      >
+                        Transfer Ownership
+                      </button>
+                    </div>
+                  ) : null}
+                </div>
+              ),
+            )
             : ""}
         </div>
       ) : (
@@ -468,6 +505,3 @@ const Vaults: NextPage = () => {
 };
 
 export default Vaults;
-function useCallBack(arg0: Promise<void>, arg1: (readonly string[] | readonly string[] | undefined)[]) {
-  throw new Error("Function not implemented.");
-}

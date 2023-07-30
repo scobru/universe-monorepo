@@ -1,34 +1,38 @@
-import { parseEther } from '@ethersproject/units'
-import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
-import * as dotenv from 'dotenv'
-import { ethers, run, upgrades } from 'hardhat'
+import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers';
+import { ethers, upgrades } from 'hardhat';
+import { BeefyMultiFarmFactoryV2__factory } from '../../../typechain-types';
+import * as dotenv from 'dotenv';
 
-import { BeefyMultiFarmFactoryV2__factory } from '../../../typechain-types'
+dotenv.config();
 
-dotenv.config()
-
-let ownerAddress: string
-
-let signers: SignerWithAddress[]
+let ownerAddress: string;
+let signers: SignerWithAddress[];
 
 async function main() {
-  signers = await ethers.getSigners()
+  signers = await ethers.getSigners();
 
-  ownerAddress = signers[0].address
+  if (!signers.length) {
+    throw new Error("No signers available");
+  }
+
+  ownerAddress = signers[0].address;
 
   // upgrade openzeppelin proxy
-  const ctx = new BeefyMultiFarmFactoryV2__factory(signers[0])
+  const ctx = new BeefyMultiFarmFactoryV2__factory(signers[0]);
+  console.log('Upgrading BeefyMultiFarmSolo...');
 
-  await upgrades.prepareUpgrade('0xbb77efa4651f0458a7cf24a6a490d7aa46d7752b', ctx)
-  const ctxProxy = await upgrades.upgradeProxy('0xbb77efa4651f0458a7cf24a6a490d7aa46d7752b', ctx)
-  ctxProxy.deployed()
+  const contractAddress = '0x4A28B3B42A48DFb6d3797c8aBB8Ba530cF7B93e6';
+  const forceImport = await upgrades.forceImport(contractAddress, ctx);
+  const prepare = await upgrades.prepareUpgrade(contractAddress, ctx);
+  const ctxProxy = await upgrades.upgradeProxy(contractAddress, ctx);
 
-  console.log('BeefyMultiFarmSolo upgraded: ' + ctxProxy.address)
+  await ctxProxy.deployed();
+  console.log(`BeefyMultiFarmSolo upgraded at address: ${ctxProxy.address}`);
 }
 
 main()
   .then(() => process.exit(0))
   .catch(error => {
-    console.error(error)
-    process.exit(1)
-  })
+    console.error(error);
+    process.exit(1);
+  });

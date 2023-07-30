@@ -14,6 +14,60 @@
       "address": "0x664F7103957A4B0106FA00957896F8DB71Fce59b",
       "txHash": "0x1886485779cf3544b052640aec949640eea84040d75530a88c379ff67806951a",
       "kind": "transparent"
+    },
+    {
+      "address": "0x4A28B3B42A48DFb6d3797c8aBB8Ba530cF7B93e6",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xC5F3C7584ce409446bf70EE376E6b777303e3b9d",
+      "txHash": "0x458e3c0b59e8dd92b734740a886af14e032d88ab75ed33b6b37c32cb0e8dd119",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xFb03754A2aab31B03804ee8069ED36E6a4276Ef6",
+      "txHash": "0x45fbdc61bcd6e8a4bbb198884c4f7c05a4df1426515a5bff674afb69437a4c6f",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x0d7083555F1368BC155ef16Aa50B939135bb1F85",
+      "txHash": "0xd95873278360f1ae825d4f18a606e24619ecc356e38143bd3753dd4319f84d35",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xda96f5969BD15cD61BddBcb205d22b66aFC0AfC4",
+      "txHash": "0x5aa016a4c458332e15e1984e20632e606a1d522baeeb05b9f8741b0f72172116",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xFc535EF51538d138673fe562B5Be8F85F75DE95B",
+      "txHash": "0x0c1ef8b433868f76cbf63d714f9beb326ac49df86f56694a710b04cacb2df714",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x926323fF0d32AFE84a729bfC380aed570Bb87f32",
+      "txHash": "0x2624d1749c717d01708e37b9d6262328930c3d7694bcdd3af59a175fab5782f6",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x925feB37A623B08aE8C5D11C843fFe877a135c93",
+      "txHash": "0xb4976c0f03fcb288fd1906f1bab11368ca2af0e58b41ac38570bfd502bdcb578",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x87760223947b6A2c2300adcC1e11Da7f9aFD29b9",
+      "txHash": "0xc8b0d01a50b9d9555ca8021b8c21027485b3a5b7549f726edc08d82022881e3e",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xdDd585022A9a86966c1f3d58E05652a716bbd1EF",
+      "txHash": "0x76580f2d4c209a67f96be0bed393e1aab56ea8465c0ecfd043d1bb66cdc9b40d",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x3e6BA2747aEe796E7c436617308B6771f369bB65",
+      "txHash": "0xeb4a44e1f3a3f0f3defe4406cdd1f70108327f8e616e12070e49a515b3ef507c",
+      "kind": "transparent"
     }
   ],
   "impls": {
@@ -533,6 +587,533 @@
           "t_string_storage": {
             "label": "string",
             "numberOfBytes": "32"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          },
+          "t_uint8": {
+            "label": "uint8",
+            "numberOfBytes": "1"
+          }
+        }
+      }
+    },
+    "1f95da12073b65c0fbfe8b4010384a2e5493bcada5aff991f5f47e5cb50156a7": {
+      "address": "0xAC60D2c1DBacABaF6DcD40f413B94c1d47501742",
+      "layout": {
+        "solcVersion": "0.8.14",
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint8",
+            "contract": "Initializable",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:63",
+            "retypedFrom": "bool"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:68"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ContextUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:36"
+          },
+          {
+            "label": "_owner",
+            "offset": 0,
+            "slot": "51",
+            "type": "t_address",
+            "contract": "OwnableUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:22"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "52",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "OwnableUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:94"
+          },
+          {
+            "label": "proxyCallContract",
+            "offset": 0,
+            "slot": "101",
+            "type": "t_contract(IProxyCall)16084",
+            "contract": "BeefyMultiFarmFactory",
+            "src": "contracts\\BeefyMultiFarmFactory.sol:23"
+          },
+          {
+            "label": "implementation",
+            "offset": 0,
+            "slot": "102",
+            "type": "t_address",
+            "contract": "BeefyMultiFarmFactory",
+            "src": "contracts\\BeefyMultiFarmFactory.sol:24"
+          },
+          {
+            "label": "defaultOperator",
+            "offset": 0,
+            "slot": "103",
+            "type": "t_address",
+            "contract": "BeefyMultiFarmFactory",
+            "src": "contracts\\BeefyMultiFarmFactory.sol:25"
+          },
+          {
+            "label": "oracle",
+            "offset": 0,
+            "slot": "104",
+            "type": "t_address",
+            "contract": "BeefyMultiFarmFactory",
+            "src": "contracts\\BeefyMultiFarmFactory.sol:26"
+          },
+          {
+            "label": "treasury",
+            "offset": 0,
+            "slot": "105",
+            "type": "t_address",
+            "contract": "BeefyMultiFarmFactory",
+            "src": "contracts\\BeefyMultiFarmFactory.sol:27"
+          },
+          {
+            "label": "rolesContract",
+            "offset": 0,
+            "slot": "106",
+            "type": "t_address",
+            "contract": "BeefyMultiFarmFactory",
+            "src": "contracts\\BeefyMultiFarmFactory.sol:28"
+          },
+          {
+            "label": "WETH",
+            "offset": 0,
+            "slot": "107",
+            "type": "t_address",
+            "contract": "BeefyMultiFarmFactory",
+            "src": "contracts\\BeefyMultiFarmFactory.sol:29"
+          },
+          {
+            "label": "version",
+            "offset": 0,
+            "slot": "108",
+            "type": "t_uint256",
+            "contract": "BeefyMultiFarmFactory",
+            "src": "contracts\\BeefyMultiFarmFactory.sol:30"
+          },
+          {
+            "label": "fee",
+            "offset": 0,
+            "slot": "109",
+            "type": "t_uint256",
+            "contract": "BeefyMultiFarmFactory",
+            "src": "contracts\\BeefyMultiFarmFactory.sol:31"
+          },
+          {
+            "label": "MAX_FEE",
+            "offset": 0,
+            "slot": "110",
+            "type": "t_uint256",
+            "contract": "BeefyMultiFarmFactory",
+            "src": "contracts\\BeefyMultiFarmFactory.sol:32"
+          },
+          {
+            "label": "contractsList",
+            "offset": 0,
+            "slot": "111",
+            "type": "t_struct(AddressSet)5041_storage",
+            "contract": "BeefyMultiFarmFactory",
+            "src": "contracts\\BeefyMultiFarmFactory.sol:33"
+          },
+          {
+            "label": "vaultsList",
+            "offset": 0,
+            "slot": "113",
+            "type": "t_struct(AddressSet)5041_storage",
+            "contract": "BeefyMultiFarmFactory",
+            "src": "contracts\\BeefyMultiFarmFactory.sol:34"
+          },
+          {
+            "label": "allowedRouters",
+            "offset": 0,
+            "slot": "115",
+            "type": "t_mapping(t_address,t_bool)",
+            "contract": "BeefyMultiFarmFactory",
+            "src": "contracts\\BeefyMultiFarmFactory.sol:38"
+          },
+          {
+            "label": "activeContracts",
+            "offset": 0,
+            "slot": "116",
+            "type": "t_mapping(t_address,t_bool)",
+            "contract": "BeefyMultiFarmFactory",
+            "src": "contracts\\BeefyMultiFarmFactory.sol:39"
+          },
+          {
+            "label": "rebalancer",
+            "offset": 0,
+            "slot": "117",
+            "type": "t_address",
+            "contract": "BeefyMultiFarmFactoryV2",
+            "src": "contracts\\v2\\BeefyMultiFarmFactoryV2.sol:7"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_bytes32)dyn_storage": {
+            "label": "bytes32[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]",
+            "numberOfBytes": "1568"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]",
+            "numberOfBytes": "1600"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_bytes32": {
+            "label": "bytes32",
+            "numberOfBytes": "32"
+          },
+          "t_contract(IProxyCall)16084": {
+            "label": "contract IProxyCall",
+            "numberOfBytes": "20"
+          },
+          "t_mapping(t_address,t_bool)": {
+            "label": "mapping(address => bool)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_bytes32,t_uint256)": {
+            "label": "mapping(bytes32 => uint256)",
+            "numberOfBytes": "32"
+          },
+          "t_struct(AddressSet)5041_storage": {
+            "label": "struct EnumerableSetUpgradeable.AddressSet",
+            "members": [
+              {
+                "label": "_inner",
+                "type": "t_struct(Set)4726_storage",
+                "offset": 0,
+                "slot": "0"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(Set)4726_storage": {
+            "label": "struct EnumerableSetUpgradeable.Set",
+            "members": [
+              {
+                "label": "_values",
+                "type": "t_array(t_bytes32)dyn_storage",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "_indexes",
+                "type": "t_mapping(t_bytes32,t_uint256)",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          },
+          "t_uint8": {
+            "label": "uint8",
+            "numberOfBytes": "1"
+          }
+        }
+      }
+    },
+    "d331191703a6144153a700571c1533b91b2f50aa9d3ad8968879edc86824ee05": {
+      "address": "0x1aa37eAc5411d65dE3bd4879226c63c6E957b966",
+      "txHash": "0xeb084612a4326d105becef65d0a89eb9e9d5e1539a7b2af29e04d619da14ad9d",
+      "layout": {
+        "solcVersion": "0.8.14",
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint8",
+            "contract": "Initializable",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:63",
+            "retypedFrom": "bool"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:68"
+          }
+        ],
+        "types": {
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_uint8": {
+            "label": "uint8",
+            "numberOfBytes": "1"
+          }
+        }
+      }
+    },
+    "50063418fa8bb0c6f0a1129e18e042d7dbc19f54d0f625d3a0437c98ce8fa3cf": {
+      "address": "0x61c6A3F768f8ef2439ca2c4f595219EE0FDBe081",
+      "txHash": "0xc88b4bbd88648624502c74df5ebf8262357c947869d4e870ca045dff03e752f7",
+      "layout": {
+        "solcVersion": "0.8.14",
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint8",
+            "contract": "Initializable",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:63",
+            "retypedFrom": "bool"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:68"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ContextUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:36"
+          },
+          {
+            "label": "_owner",
+            "offset": 0,
+            "slot": "51",
+            "type": "t_address",
+            "contract": "OwnableUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:22"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "52",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "OwnableUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:94"
+          },
+          {
+            "label": "proxyCallContract",
+            "offset": 0,
+            "slot": "101",
+            "type": "t_contract(IProxyCall)3824",
+            "contract": "BeefyMultiFarmFactory",
+            "src": "contracts\\BeefyMultiFarmFactory.sol:23"
+          },
+          {
+            "label": "implementation",
+            "offset": 0,
+            "slot": "102",
+            "type": "t_address",
+            "contract": "BeefyMultiFarmFactory",
+            "src": "contracts\\BeefyMultiFarmFactory.sol:24"
+          },
+          {
+            "label": "defaultOperator",
+            "offset": 0,
+            "slot": "103",
+            "type": "t_address",
+            "contract": "BeefyMultiFarmFactory",
+            "src": "contracts\\BeefyMultiFarmFactory.sol:25"
+          },
+          {
+            "label": "oracle",
+            "offset": 0,
+            "slot": "104",
+            "type": "t_address",
+            "contract": "BeefyMultiFarmFactory",
+            "src": "contracts\\BeefyMultiFarmFactory.sol:26"
+          },
+          {
+            "label": "treasury",
+            "offset": 0,
+            "slot": "105",
+            "type": "t_address",
+            "contract": "BeefyMultiFarmFactory",
+            "src": "contracts\\BeefyMultiFarmFactory.sol:27"
+          },
+          {
+            "label": "rolesContract",
+            "offset": 0,
+            "slot": "106",
+            "type": "t_address",
+            "contract": "BeefyMultiFarmFactory",
+            "src": "contracts\\BeefyMultiFarmFactory.sol:28"
+          },
+          {
+            "label": "WETH",
+            "offset": 0,
+            "slot": "107",
+            "type": "t_address",
+            "contract": "BeefyMultiFarmFactory",
+            "src": "contracts\\BeefyMultiFarmFactory.sol:29"
+          },
+          {
+            "label": "version",
+            "offset": 0,
+            "slot": "108",
+            "type": "t_uint256",
+            "contract": "BeefyMultiFarmFactory",
+            "src": "contracts\\BeefyMultiFarmFactory.sol:30"
+          },
+          {
+            "label": "fee",
+            "offset": 0,
+            "slot": "109",
+            "type": "t_uint256",
+            "contract": "BeefyMultiFarmFactory",
+            "src": "contracts\\BeefyMultiFarmFactory.sol:31"
+          },
+          {
+            "label": "MAX_FEE",
+            "offset": 0,
+            "slot": "110",
+            "type": "t_uint256",
+            "contract": "BeefyMultiFarmFactory",
+            "src": "contracts\\BeefyMultiFarmFactory.sol:32"
+          },
+          {
+            "label": "contractsList",
+            "offset": 0,
+            "slot": "111",
+            "type": "t_struct(AddressSet)2773_storage",
+            "contract": "BeefyMultiFarmFactory",
+            "src": "contracts\\BeefyMultiFarmFactory.sol:33"
+          },
+          {
+            "label": "vaultsList",
+            "offset": 0,
+            "slot": "113",
+            "type": "t_struct(AddressSet)2773_storage",
+            "contract": "BeefyMultiFarmFactory",
+            "src": "contracts\\BeefyMultiFarmFactory.sol:34"
+          },
+          {
+            "label": "allowedRouters",
+            "offset": 0,
+            "slot": "115",
+            "type": "t_mapping(t_address,t_bool)",
+            "contract": "BeefyMultiFarmFactory",
+            "src": "contracts\\BeefyMultiFarmFactory.sol:38"
+          },
+          {
+            "label": "activeContracts",
+            "offset": 0,
+            "slot": "116",
+            "type": "t_mapping(t_address,t_bool)",
+            "contract": "BeefyMultiFarmFactory",
+            "src": "contracts\\BeefyMultiFarmFactory.sol:39"
+          },
+          {
+            "label": "rebalancer",
+            "offset": 0,
+            "slot": "117",
+            "type": "t_address",
+            "contract": "BeefyMultiFarmFactoryV2",
+            "src": "contracts\\v2\\BeefyMultiFarmFactoryV2.sol:7"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_bytes32)dyn_storage": {
+            "label": "bytes32[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]",
+            "numberOfBytes": "1568"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]",
+            "numberOfBytes": "1600"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_bytes32": {
+            "label": "bytes32",
+            "numberOfBytes": "32"
+          },
+          "t_contract(IProxyCall)3824": {
+            "label": "contract IProxyCall",
+            "numberOfBytes": "20"
+          },
+          "t_mapping(t_address,t_bool)": {
+            "label": "mapping(address => bool)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_bytes32,t_uint256)": {
+            "label": "mapping(bytes32 => uint256)",
+            "numberOfBytes": "32"
+          },
+          "t_struct(AddressSet)2773_storage": {
+            "label": "struct EnumerableSetUpgradeable.AddressSet",
+            "members": [
+              {
+                "label": "_inner",
+                "type": "t_struct(Set)2458_storage",
+                "offset": 0,
+                "slot": "0"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(Set)2458_storage": {
+            "label": "struct EnumerableSetUpgradeable.Set",
+            "members": [
+              {
+                "label": "_values",
+                "type": "t_array(t_bytes32)dyn_storage",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "_indexes",
+                "type": "t_mapping(t_bytes32,t_uint256)",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
           },
           "t_uint256": {
             "label": "uint256",

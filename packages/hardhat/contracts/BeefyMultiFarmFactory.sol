@@ -100,11 +100,7 @@ contract BeefyMultiFarmFactory is Initializable, OwnableUpgradeable {
     _updateProxyCallContract(_proxyCallContract);
   }
 
-  function create(
-    address _owner,
-    string memory _name,
-    string memory _symbol
-  ) external onlyOwner returns (address ctx) {
+  function create(address _owner, string memory _name, string memory _symbol) external onlyOwner returns (address ctx) {
     uint256 nonce = uint256(keccak256(abi.encodePacked(msg.sender, block.timestamp)));
     ctx = implementation.cloneDeterministic(_getSalt(msg.sender, nonce + 1));
     IFarmInitializer(ctx).initialize(address(this), oracle, _owner, _name, _symbol, WETH);

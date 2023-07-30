@@ -12,15 +12,13 @@ dotenv.config()
 let ownerAddress: string
 let signers: SignerWithAddress[]
 
-const FACTORY = ''
-
-const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL)
+const FACTORY = '0x3e6BA2747aEe796E7c436617308B6771f369bB65'
 
 async function main() {
   signers = await ethers.getSigners()
   ownerAddress = signers[0].address
 
-  const fundID = 0
+  const fundID = 1
   const factory = BeefyMultiFarmFactoryV2__factory.connect(FACTORY, signers[0])
   const vaultsData = [
     {
@@ -39,12 +37,6 @@ async function main() {
         '0x6888f67662d1f442c4428129e0bdb27a275e0a65'
       ],
       weights: [2500, 2500, 4000, 1000]
-    },
-    {
-      name: 'VENUS LCD/PMATIC-MATIC',
-      symbol: 'VNS',
-      vaults: ['0x8c9de3b735a154d8fc1e94183ea9b021913ac88b', '0xdb15f201529778b5e2dfa52d41615cd1ab24c765'],
-      weights: [7000, 3000]
     }
   ]
 
@@ -53,8 +45,8 @@ async function main() {
 
   if (!contracts[fundID]) {
     const tx = await factory.create(ownerAddress, vaultsData[fundID].name, vaultsData[fundID].symbol)
-    await tx.wait()
     console.log('Fund created')
+
     while (!contracts[fundID]) {
       console.log('Waiting for fund to be created on chain')
       contracts = await factory.getContracts()
@@ -83,10 +75,12 @@ async function main() {
     try {
       const deposit = await contract.deposit({ value: parseEther('5') })
       let balance = await contract.balanceOf(ownerAddress, 0)
+
       while (deposit.hash === undefined) {
         await deposit.wait()
         console.log('Waiting for deposit to be done')
       }
+
       console.log('Deposit done')
       balance = await contract.balanceOf(ownerAddress, 0)
 
@@ -101,6 +95,7 @@ async function main() {
     const contract = BeefyMultiFarmV2__factory.connect(contracts[fundID], signers[0])
 
     try {
+
       // Set Vaults and weights
       const setVaultsAndWeights = await contract.setVaultsAndWeights(
         vaultsData[fundID].vaults,
@@ -119,25 +114,27 @@ async function main() {
 
       // Deposit
 
-      const deposit = await contract.deposit({ value: parseEther('5'), gasPrice: 100 * 1e9, gasLimit: 28000000 })
-      let balance = await contract.balanceOf(ownerAddress, 0)
+      /*  const deposit = await contract.deposit({ value: parseEther('2') })
+       let balance = await contract.balanceOf(ownerAddress, 0)
+ 
+       while (deposit.data === undefined) {
+         await deposit.wait()
+         console.log('Waiting for deposit to be done')
+         console.log('Balance: ' + balance.toString())
+ 
+         while (balance.toString() === '0') {
+           console.log('Waiting for balance to be updated')
+           balance = await contract.balanceOf(ownerAddress, 0)
+           await new Promise(r => setTimeout(r, 6000))
+         }
+         console.log('Deposit done')
+       } */
 
-      while (deposit.hash === undefined) {
-        await deposit.wait()
-        console.log('Waiting for deposit to be done')
-      }
-
-      console.log('Balance: ' + balance.toString())
-      while (balance.toString() === '0') {
-        console.log('Waiting for balance to be updated')
-        balance = await contract.balanceOf(ownerAddress, 0)
-        await new Promise(r => setTimeout(r, 6000))
-      }
-
-      console.log('Deposit done')
     } catch (e) {
       console.log('Error', e)
     }
+
+
   }
 }
 
@@ -147,3 +144,5 @@ main()
     console.error(error)
     process.exit(1)
   })
+
+

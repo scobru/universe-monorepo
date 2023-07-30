@@ -1,25 +1,22 @@
-import '@openzeppelin/hardhat-upgrades'
-
 import { parseEther } from '@ethersproject/units'
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
 import * as dotenv from 'dotenv'
-import { formatEther } from 'ethers/lib/utils'
-import { ethers, run, upgrades } from 'hardhat'
-
+import { ethers } from 'hardhat'
 import { BeefyMultiFarmFactoryV2__factory, BeefyMultiFarmV2__factory } from '../../../typechain-types'
+import { formatEther } from 'ethers'
 
 dotenv.config()
 
 let ownerAddress: string
 let signers: SignerWithAddress[]
 
-const FACTORY = '0x8f4e4904363858dc65e1ab3e05474f7216dced69'
+const FACTORY = '0x3e6BA2747aEe796E7c436617308B6771f369bB65'
 
 async function main() {
   signers = await ethers.getSigners()
   ownerAddress = signers[0].address
 
-  const fundID = 2
+  const fundID = 0
   const factory = BeefyMultiFarmFactoryV2__factory.connect(FACTORY, signers[0])
 
   const ctxAddress = await factory.getContracts()
@@ -41,7 +38,7 @@ async function main() {
     console.log('totalSupply', formatEther(totalSupply))
     const totalValue = await contract.getTotalValue()
     console.log('totalValue', formatEther(totalValue))
-    const totalValuation = yourBalance.mul(unitPrice).div(parseEther('1'))
+    const totalValuation = yourBalance * (unitPrice) / (parseEther('1'))
     console.log('totalValuation', totalValuation.toString())
 
     /* try {

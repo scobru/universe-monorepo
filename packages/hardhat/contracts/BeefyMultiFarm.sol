@@ -224,12 +224,7 @@ contract BeefyMultiFarm is
     require(amount1 >= minimumAmount, "INSUF_B_AMOUNT");
   }
 
-  function _swapAndStake(
-    address beefyVault,
-    uint256 amount,
-    uint256 tokenAmountOutMin,
-    address tokenIn
-  ) internal {
+  function _swapAndStake(address beefyVault, uint256 amount, uint256 tokenAmountOutMin, address tokenIn) internal {
     IUniswapV2Router02 router = IUniswapV2Router02(_getExactRouterForVault(beefyVault));
     (IBeefyVault vault, IUniswapV2Pair pair) = _getVaultPair(beefyVault);
     (uint256 reserveA, uint256 reserveB, ) = pair.getReserves();
@@ -372,43 +367,43 @@ contract BeefyMultiFarm is
       price = _getAMMPrice(_token0, _token1);
       uint8 _decimals = IERC20Upgradeable(_token0).decimals();
       if (_decimals != uint8(18)) {
-        price = price / (10**uint256(18 - _decimals));
-        b0 = b0 * (10**uint256(18 - _decimals));
-        px0 = (b0 * (price)) / (10**18);
+        price = price / (10 ** uint256(18 - _decimals));
+        b0 = b0 * (10 ** uint256(18 - _decimals));
+        px0 = (b0 * (price)) / (10 ** 18);
       } else {
-        px0 = (b0 * (price)) / (10**18);
+        px0 = (b0 * (price)) / (10 ** 18);
       }
       px = px0 + (b1);
-      lpTokenPrice = (px * (10**IERC20Upgradeable(_pair).decimals())) / (totalSupply);
+      lpTokenPrice = (px * (10 ** IERC20Upgradeable(_pair).decimals())) / (totalSupply);
     } else if (_token0 == WETH) {
       price = _getAMMPrice(_token1, _token0);
       uint8 _decimals = IERC20Upgradeable(_token1).decimals();
       if (_decimals != uint8(18)) {
-        price = price / (10**uint256(18 - _decimals));
-        b1 = b1 * (10**uint256(18 - _decimals));
-        px1 = (b1 * (price)) / (10**18);
+        price = price / (10 ** uint256(18 - _decimals));
+        b1 = b1 * (10 ** uint256(18 - _decimals));
+        px1 = (b1 * (price)) / (10 ** 18);
       } else {
-        px1 = (b1 * (price)) / (10**18);
+        px1 = (b1 * (price)) / (10 ** 18);
       }
       px = px1 + (b0);
-      lpTokenPrice = (px * (10**IERC20Upgradeable(_pair).decimals())) / (totalSupply);
+      lpTokenPrice = (px * (10 ** IERC20Upgradeable(_pair).decimals())) / (totalSupply);
     } else {
       uint256 price0 = _getAMMPrice(_token0, WETH);
       uint256 price1 = _getAMMPrice(_token1, WETH);
       uint8 _decimals0 = IERC20Upgradeable(_token0).decimals();
       uint8 _decimals1 = IERC20Upgradeable(_token1).decimals();
       if (_decimals0 != uint8(18)) {
-        price = price / (10**uint256(18 - _decimals0));
-        b0 = b0 * (10**uint256(18 - _decimals0));
+        price = price / (10 ** uint256(18 - _decimals0));
+        b0 = b0 * (10 ** uint256(18 - _decimals0));
       }
       if (_decimals1 != uint8(18)) {
-        price = price / (10**uint256(18 - _decimals1));
-        b1 = b1 * (10**uint256(18 - _decimals1));
+        price = price / (10 ** uint256(18 - _decimals1));
+        b1 = b1 * (10 ** uint256(18 - _decimals1));
       }
-      px0 = (b0 * (price0)) / (10**18);
-      px1 = (b1 * (price1)) / (10**18);
+      px0 = (b0 * (price0)) / (10 ** 18);
+      px1 = (b1 * (price1)) / (10 ** 18);
       px = px0 + (px1);
-      lpTokenPrice = (px * (10**IERC20Upgradeable(_pair).decimals())) / (totalSupply);
+      lpTokenPrice = (px * (10 ** IERC20Upgradeable(_pair).decimals())) / (totalSupply);
     }
 
     return lpTokenPrice;

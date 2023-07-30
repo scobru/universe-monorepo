@@ -15,6 +15,8 @@ const Funds: NextPage = () => {
 
   const DEBUG = false;
 
+  const [owner, setOwner] = useState<string>("");
+  const [newOwner, setNewOwner] = useState("");
   const [depositAmount, setDepositAmount] = useState("0");
   const [redeemAmount, setRedeemAmount] = useState("0");
   const [maticPrice, setMaticPrice] = useState(0);
@@ -60,6 +62,8 @@ const Funds: NextPage = () => {
         return "DAI";
       case "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619":
         return "WETH";
+      case "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174":
+        return "USDC";
       default:
         return "Unknown";
     }
@@ -77,7 +81,8 @@ const Funds: NextPage = () => {
     const getWeights = await instance?.getWeights();
     const getMultiFarmData = await instance?.getMultiFarmData();
     const balance = await instance.balanceOf(signerAddress, 0);
-
+    const owner = await instance.owner();
+    setOwner(owner);
     Promise.resolve(getMultiFarmData).then(data => {
       if (data) {
         fundsData[index] = {
@@ -208,199 +213,217 @@ const Funds: NextPage = () => {
     const tx = await contract.rebalance();
     await tx.wait();
   }
+  async function transferOwnership(addrs: string) {
+    const contract = new Contract(addrs, contractFund?.abi as ContractInterface, signer || provider);
+    const tx = await contract.transferOwnership(newOwner);
+    await tx.wait();
+  }
 
   return (
     // main div
     <div className="flex  items-center flex-col flex-grow pt-10 mx-auto text-center">
-      <h1 className="text-7xl text-justify font-bold mx-auto my-5">FUNDS</h1>
+      <h1 className="text-5xl text-justify font-bold mx-auto my-5">FUNDS</h1>
       {fundsData.length > 0 ? (
         <div className="grid  gap-5 sm:grid-cols-1 lg:grid-cols-2 items-center mx-auto ">
           {fundsData.length > 0 //check if vaults data is available
             ? fundsData.map(
-                (
-                  value,
-                  i: number, //map through the vaults data
-                ) => (
-                  <div
-                    key={i}
-                    className="bg-base-100 flex flex-col px-10 text-center mt-5  shadow-base-300 shadow-lg rounded-xl  py-10 my-5"
-                  >
-                    <ul className="my-2">
-                      <div className="text-6xl text- font-bold my-2">{value.symbol}</div>
-                      <div className="text-2xl text-netural">{value.name}</div>
-                    </ul>
-                    <div className="flex flex-row justify-center text-left my-5">
-                      <div className="dropdown  flex-row">
-                        <label tabIndex={0} className="btn btn-md m-1">
-                          Analitycs
-                        </label>
-                        <div
-                          tabIndex={0}
-                          className="dropdown-content card card-compact w-64 p-2 shadow bg-primary text-primary-content"
-                        >
-                          <div className="card-body">
-                            <div className="flex flex-col  px-5 rounded-2xl bordered border-solid border-black text-lg ">
-                              <a
-                                className="link link-base-100 text-xl text-bold text-strong "
-                                href={`https://portfolio.nansen.ai/dashboard/${value.address}?chain=POLYGON`}
-                                target="_blank"
-                                rel="noreferrer"
-                              >
-                                <strong>Nansen Dashboard</strong>
-                              </a>
-                              <a
-                                className="link link-base-100 text-xl text-bold text-strong "
-                                href={`https://debank.com/profile/${value.address}?chain=matic`}
-                                target="_blank"
-                                rel="noreferrer"
-                              >
-                                <strong>Debank</strong>
-                              </a>
-                              <a
-                                className="link link-base-100 text-xl text-bold text-strong "
-                                href={`https://polygonscan.com/address/${value.address}`}
-                                target="_blank"
-                                rel="noreferrer"
-                              >
-                                <strong>PolygonScan</strong>
-                              </a>
-                              <a
-                                className="link link-accent text-xl text-bold text-strong"
-                                href="https://beefy.finance"
-                                target="_blank"
-                                rel="noreferrer"
-                              ></a>
-                            </div>
+              (
+                value,
+                i: number, //map through the vaults data
+              ) => (
+                <div
+                  key={i}
+                  className="bg-primary flex flex-col px-10 text-center mt-5  shadow-base-300 shadow-lg rounded-xl  py-10 my-5"
+                >
+                  <ul className="my-2">
+                    <div className="text-6xl text- font-bold my-2">{value.symbol}</div>
+                    <div className="text-2xl text-netural">{value.name}</div>
+                  </ul>
+                  <div className="flex flex-row justify-center text-left my-5">
+                    <div className="dropdown  flex-row">
+                      <label tabIndex={0} className="btn btn-md m-1">
+                        Analitycs
+                      </label>
+                      <div
+                        tabIndex={0}
+                        className="dropdown-content card card-compact w-64 p-2 shadow bg-primary text-primary-content"
+                      >
+                        <div className="card-body">
+                          <div className="flex flex-col  px-5 rounded-2xl bordered border-solid border-black text-lg ">
+                            <a
+                              className="link link-base-100 text-xl text-bold text-strong "
+                              href={`https://portfolio.nansen.ai/dashboard/${value.address}?chain=POLYGON`}
+                              target="_blank"
+                              rel="noreferrer"
+                            >
+                              <strong>Nansen Dashboard</strong>
+                            </a>
+                            <a
+                              className="link link-base-100 text-xl text-bold text-strong "
+                              href={`https://debank.com/profile/${value.address}?chain=matic`}
+                              target="_blank"
+                              rel="noreferrer"
+                            >
+                              <strong>Debank</strong>
+                            </a>
+                            <a
+                              className="link link-base-100 text-xl text-bold text-strong "
+                              href={`https://polygonscan.com/address/${value.address}`}
+                              target="_blank"
+                              rel="noreferrer"
+                            >
+                              <strong>PolygonScan</strong>
+                            </a>
+                            <a
+                              className="link link-accent text-xl text-bold text-strong"
+                              href="https://beefy.finance"
+                              target="_blank"
+                              rel="noreferrer"
+                            ></a>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div className="collapse">
-                      <input type="checkbox" />
-                      <div className="collapse-title text-xl font-medium">
-                        <div className="hover:bg-accent my-8">
-                          <label className="label">ℹ️ Info</label>
-                        </div>
-                      </div>
-                      <div className="collapse-content card-compact rounded-lg">
-                        <div className="card card-normal w-96 bg-base-200 shadow-xl my-5">
-                          <div className="card-body">
-                            <h2 className="card-title text-3xl">Compositions</h2>
-                            <div className="flex flex-row text-left ">
-                              {value.vaults && allocations[i] ? (
-                                value.vaults.map((contract: string, k: number) => (
-                                  <div key={k}>
-                                    <p className="text-lg font-bold">
-                                      {tokenNames(contract.toString())}{" "}
-                                      <span className="text-md font-normal mx-2">
-                                        {Number(allocations[i][k] / 100).toFixed(2)} %
-                                      </span>
-                                    </p>
-                                  </div>
-                                ))
-                              ) : (
-                                <progress className="progress w-56"></progress>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                        <div className="card card-normal w-96 bg-base-100 shadow-xl">
-                          <div className="card-body text-left">
-                            <h1 className="card-title text-3xl">Statistics</h1>
-                            <h1 className="text-xl  align-baseline ">
-                              <p className="text-lg font-semibold align-baseline">Unit Price</p>{" "}
-                              {Number(formatEther(value.unitPrice)).toFixed(9)} MATIC{" "}
-                              <p className="text-lg  font-semibold"> Total Value: </p>
-                              {Number(Number(formatEther(value.totalValue))).toFixed(3)} MATIC <br />
-                              <p className="text-lg font-semibold">Total Supply:</p>{" "}
-                              {Number(formatEther(value.totalSupply)).toFixed(3)} {value.symbol}{" "}
-                              <p className="text-lg font-semibold">Your Balance:</p>
-                              {Number(formatEther(value.yourBalance)).toFixed(3)} {value.symbol}
-                              <br />
-                              {Number(((value.yourBalance / 1e18) * value.unitPrice) / 1e18).toFixed(3)} MATIC
-                              <br />
-                              {Number((value.yourBalance / 1e18) * (value.unitPrice / 1e18) * maticPrice).toFixed(
-                                2,
-                              )}{" "}
-                              USD
-                            </h1>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="collapse text-center">
-                      <input type="checkbox" />
-                      <div className="collapse-title text-xl font-medium">
-                        <label className="label">💸 Deposit</label>{" "}
-                      </div>
-                      <div className="collapse-content card-compact rounded-lg bg-secondary">
-                        <div className="flex flex-col mx-auto my-auto p-2 ">
-                          <input
-                            className="input input-bordered w-auto my-5"
-                            type="text"
-                            onChange={e => setDepositAmount(e.target.value)}
-                          />
-                          <button className="w-auto btn btn-primary" onClick={() => deposit(value.address)}>
-                            Deposit
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="collapse text-center">
-                      <input type="checkbox" />
-                      <div className="collapse-title text-xl font-medium">
-                        <label className="label hover:bg-primary">👛 Redeem</label>
-                      </div>
-                      <div className="collapse-content card-compact rounded-lg bg-secondary">
-                        <div className="flex flex-col mx-auto my-auto p-2 ">
-                          <input
-                            className="input input-bordered w-auto my-5"
-                            type="text"
-                            onChange={e => setRedeemAmount(e.target.value)}
-                          />
-                          <button className="btn btn-primary w-auto my-2" onClick={() => redeem(value.address)}>
-                            Redeem
-                          </button>
-                          <button className="btn btn-primary" onClick={() => redeemMax(value.address)}>
-                            Redeem All
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-
-                    {account.address === "0x3db5E84e0eBBEa945a0a82E879DcB7E1D1a587B4" ? (
-                      <div className=" flex flex-col my-5  px-5 rounded-2xl bordered border-solid border-black text-2xl">
-                        <div className="divider mx-5 my-5">🔒 Admin Section</div>
-
-                        <button
-                          className=" rounded-sm px-4 py-2 border-solid border-2 row-span-1 my-5"
-                          onClick={() => {
-                            zapOutAndDistribute(value.address);
-                          }}
-                        >
-                          Zap Out and Distribute
-                        </button>
-                        <button
-                          className="  rounded-sm px-4 py-2 border-solid border-2 row-span-1 my-5"
-                          onClick={() => {
-                            restartDistribution(value.address);
-                          }}
-                        >
-                          Restart Distribution
-                        </button>
-                        <button
-                          className="  rounded-sm px-4 py-2 border-solid border-2 row-span-1 my-5"
-                          onClick={() => {
-                            rebalance(value.address);
-                          }}
-                        >
-                          Rebalance
-                        </button>
-                      </div>
-                    ) : null}
                   </div>
-                ),
-              )
+                  <div className="collapse">
+                    <input type="checkbox" />
+                    <div className="collapse-title text-xl font-medium">
+                      <div className="hover:bg-accent my-8">
+                        <label className="label">ℹ️ Info</label>
+                      </div>
+                    </div>
+                    <div className="collapse-content card-compact rounded-lg">
+                      <div className="card card-normal w-96 bg-base-200 shadow-xl my-5">
+                        <div className="card-body">
+                          <h2 className="card-title text-3xl">Compositions</h2>
+                          <div className="flex flex-row text-left ">
+                            {value.vaults && allocations[i] ? (
+                              value.vaults.map((contract: string, k: number) => (
+                                <div key={k}>
+                                  <p className="text-lg font-bold">
+                                    {tokenNames(contract.toString())}{" "}
+                                    <span className="text-md font-normal mx-2">
+                                      {Number(allocations[i][k] / 100).toFixed(2)} %
+                                    </span>
+                                  </p>
+                                </div>
+                              ))
+                            ) : (
+                              <progress className="progress w-56"></progress>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="card card-normal w-96 bg-base-100 shadow-xl">
+                        <div className="card-body text-left">
+                          <h1 className="card-title text-3xl">Statistics</h1>
+                          <h1 className="text-xl  align-baseline ">
+                            <p className="text-lg font-semibold align-baseline">Unit Price</p>{" "}
+                            {Number(formatEther(value.unitPrice)).toFixed(9)} MATIC{" "}
+                            <p className="text-lg  font-semibold"> Total Value: </p>
+                            {Number(Number(formatEther(value.totalValue))).toFixed(3)} MATIC <br />
+                            <p className="text-lg font-semibold">Total Supply:</p>{" "}
+                            {Number(formatEther(value.totalSupply)).toFixed(3)} {value.symbol}{" "}
+                            <p className="text-lg font-semibold">Your Balance:</p>
+                            {Number(formatEther(value.yourBalance)).toFixed(3)} {value.symbol}
+                            <br />
+                            {Number(((value.yourBalance / 1e18) * value.unitPrice) / 1e18).toFixed(3)} MATIC
+                            <br />
+                            {Number((value.yourBalance / 1e18) * (value.unitPrice / 1e18) * maticPrice).toFixed(
+                              2,
+                            )}{" "}
+                            USD
+                          </h1>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="collapse text-center">
+                    <input type="checkbox" />
+                    <div className="collapse-title text-xl font-medium">
+                      <label className="label">💸 Deposit</label>{" "}
+                    </div>
+                    <div className="collapse-content card-compact rounded-lg bg-secondary">
+                      <div className="flex flex-col mx-auto my-auto p-2 ">
+                        <input
+                          className="input input-bordered w-auto my-5"
+                          type="text"
+                          onChange={e => setDepositAmount(e.target.value)}
+                        />
+                        <button className="w-auto btn btn-primary" onClick={() => deposit(value.address)}>
+                          Deposit
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="collapse text-center">
+                    <input type="checkbox" />
+                    <div className="collapse-title text-xl font-medium">
+                      <label className="label hover:bg-primary">👛 Redeem</label>
+                    </div>
+                    <div className="collapse-content card-compact rounded-lg bg-secondary">
+                      <div className="flex flex-col mx-auto my-auto p-2 ">
+                        <input
+                          className="input input-bordered w-auto my-5"
+                          type="text"
+                          onChange={e => setRedeemAmount(e.target.value)}
+                        />
+                        <button className="btn btn-primary w-auto my-2" onClick={() => redeem(value.address)}>
+                          Redeem
+                        </button>
+                        <button className="btn btn-primary" onClick={() => redeemMax(value.address)}>
+                          Redeem All
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  {account.address === owner ? (
+                    <div className=" flex flex-col my-5  px-5 rounded-2xl bordered border-solid border-black text-2xl">
+                      <div className="divider mx-5 my-5">🔒 Admin Section</div>
+
+                      <button
+                        className=" rounded-sm px-4 py-2 border-solid border-2 row-span-1 my-5"
+                        onClick={() => {
+                          zapOutAndDistribute(value.address);
+                        }}
+                      >
+                        Zap Out and Distribute
+                      </button>
+                      <button
+                        className="  rounded-sm px-4 py-2 border-solid border-2 row-span-1 my-5"
+                        onClick={() => {
+                          restartDistribution(value.address);
+                        }}
+                      >
+                        Restart Distribution
+                      </button>
+                      <button
+                        className="  rounded-sm px-4 py-2 border-solid border-2 row-span-1 my-5"
+                        onClick={() => {
+                          rebalance(value.address);
+                        }}
+                      >
+                        Rebalance
+                      </button>
+                      <input
+                        className="input input-bordered w-auto my-5"
+                        type="text"
+                        onChange={e => setNewOwner(e.target.value)}
+                      />
+                      <button
+                        className="  rounded-sm px-4 py-2 border-solid border-2 row-span-1 my-5"
+                        onClick={() => {
+                          transferOwnership(value.address);
+                        }}
+                      >
+                        Transfer Ownership
+                      </button>
+                    </div>
+                  ) : null}
+                </div>
+              ),
+            )
             : null}
         </div>
       ) : (

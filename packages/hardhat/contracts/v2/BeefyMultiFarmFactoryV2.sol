@@ -6,7 +6,7 @@ import "../BeefyMultiFarmFactory.sol";
 contract BeefyMultiFarmFactoryV2 is BeefyMultiFarmFactory {
   address public rebalancer;
 
-  function initialize(
+  function initializeV2(
     address _rebalancer,
     address _oracle,
     address _proxyCallContract,
