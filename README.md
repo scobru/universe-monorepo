@@ -1,5 +1,12 @@
 # ◯ Universe
 
+## 📖 Updates
+
+### 2023-07-30
+
+- Deployed V2 of BeefyMultiFarm on polygon 
+- Rebalancer function added to BeefyMultiFarm 
+
 ## Index Fund ERC20 📈💰🤑
 
 ### What is this?
