@@ -280,7 +280,7 @@ const Vaults: NextPage = () => {
 
   return (
     <div className="flex  items-center flex-col flex-grow pt-10 mx-auto text-center">
-      <h1 className="text-7xl text-justify font-bold mx-auto my-5">FARMS</h1>
+      <h1 className="text-5xl text-justify font-bold mx-auto my-5">FARMS</h1>
       <p className="text-2xl text-justify font-bold mx-auto my-5">Beefy Finance</p>
 
       {fundsData?.length > 0 ? (

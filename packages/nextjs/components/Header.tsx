@@ -54,19 +54,16 @@ export const Header = () => {
       </li> */}
       <li>
         <NavLink href="/funds">
-          <Bars3Icon className="h-4 w-4" />
           <h1 className="text-base font-semibold my-0">Funds</h1>
         </NavLink>
       </li>
       <li>
         <NavLink href="/farms">
-          <SparklesIcon className="h-4 w-4" />
           <h1 className="text-base font-semibold my-0">Farm</h1>
         </NavLink>
       </li>
       <li>
         <NavLink href="https://scobru.gitbook.io/universe/">
-          <DocumentIcon className="h-4 w-4" />
           <h1 className="text-base font-semibold my-0">Docs</h1>
         </NavLink>
       </li>
@@ -88,7 +85,7 @@ export const Header = () => {
           {isDrawerOpen && (
             <ul
               tabIndex={0}
-              className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
+              className="menu menu-compact dropdown-content mt-2 p-1 shadow bg-base-100 rounded-box w-52"
               onClick={() => {
                 setIsDrawerOpen(false);
               }}
@@ -99,7 +96,7 @@ export const Header = () => {
         </div>
         <Link href="/" passHref className="hidden lg:flex items-center gap-2 ml-4 mr-6">
           <div className="flex flex-col py-2">
-            <span className="font-bold text-xl">◯ U N I V E R S E </span>
+            <span className="font-bold text-xl">◯ Universe </span>
             <span className="text-xs">Decentralized Investment platform</span>
           </div>
         </Link>

@@ -20,7 +20,7 @@ const Home: NextPage = () => {
           <h1 className="text-center mb-8">
             <span className="block text-6xl font-bold">◯ U N I V E R S E </span>
           </h1>
-          <h1 className="text-4xl font-bold mb-20">Decentralized Investment platform</h1>
+          <h1 className="text-7xl font-bold mb-20">Decentralized Investment platform</h1>
           <p className="text-2xl  mb-2">
             Welcome to Universe, a decentralized investment platform that enables you to invest in the most promising
             DeFi projects and earn passive income. Our index funds offer the optimal way to invest in DeFi, ensuring the
